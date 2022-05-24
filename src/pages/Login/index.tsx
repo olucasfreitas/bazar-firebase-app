@@ -17,11 +17,7 @@ import { auth } from "../../services/api";
 export function Login(params: any) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-
-  function teste() {
-    Alert.alert(email);
-  }
-
+  
   async function createUser() {
     await createUserWithEmailAndPassword(auth, email, senha)
       .then((response) => {
