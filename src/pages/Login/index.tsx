@@ -13,11 +13,13 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../../services/api";
+import { useNavigation } from "@react-navigation/native";
 
 export function Login(params: any) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  
+  const { navigate } = useNavigation();
+
   async function createUser() {
     await createUserWithEmailAndPassword(auth, email, senha)
       .then((response) => {
@@ -34,14 +36,10 @@ export function Login(params: any) {
   async function loginUser() {
     await signInWithEmailAndPassword(auth, email, senha)
       .then((response) => {
-        Alert.alert(
-          "Login",
-          `Usuario ${JSON.stringify(response.user.email)} logado com sucesso`,
-          [{ text: "OK", onPress: () => params.navigation.navigate("Home") }]
-        );
+        navigate("Home", { id: response.user.email });
       })
       .catch((erro) => {
-        Alert.alert("Erro no login usuário", `${erro.message.toString()}`);
+        Alert.alert(erro.message);
       });
   }
 
